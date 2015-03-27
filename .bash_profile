@@ -2,7 +2,6 @@
 
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
-export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 export SVN_EDITOR=vi
 
 alias ls='ls -1l'
@@ -14,6 +13,13 @@ alias sql='mysql -u root'
 
 alias stopSql='sudo /usr/local/mysql/support-files/mysql.server stop'
 alias startSql='sudo /usr/local/mysql/support-files/mysql.server start'
+
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/' | sed -e 's/^[[:space:]]*//'
+}
+
+# Set command prompt to show current Git branch
+export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\$(parse_git_branch)\[\033[01;34m\]\w\[\033[00m\]\$ "
 
 function java6 {
 	export JAVA_HOME=/Library/Java/JavaVirtualMachines/1.6.0_37-b06-434.jdk/Contents/Home
